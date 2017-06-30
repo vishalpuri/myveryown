@@ -1,11 +1,11 @@
 CREATE TABLE ingest_schema
 (
-    tenant_id character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    tenant_id character varying(15) NOT NULL,
     id integer primary key,
-    name character varying(100) COLLATE pg_catalog."default",
+    name character varying(100),
     last_update_ts timestamp with time zone NOT NULL,
     active boolean NOT NULL,
-    CONSTRAINT "Ingest_Schema_Name_Unique" UNIQUE (tenant_id,name)
+    CONSTRAINT Ingest_Schema_Name_Unique UNIQUE (tenant_id,name)
 )
 WITH (
     OIDS = FALSE
@@ -18,15 +18,15 @@ ALTER TABLE ingest_schema
 CREATE TABLE ingest_schema_details
 (  
     ingest_schema_id integer,
-    col_name character varying(100) COLLATE pg_catalog."default",
-    col_type character varying(100) COLLATE pg_catalog."default",
+    col_name character varying(100) ,
+    col_type character varying(100) ,
     required boolean NOT NULL,
-    key boolean NOT NULL,
+    pkey boolean NOT NULL,
     last_update_ts timestamp with time zone NOT NULL,
     active boolean NOT NULL,
-    CONSTRAINT "ingest_Schema_details_pkey" PRIMARY KEY (ingest_schema_id,col_name),
-    CONSTRAINT "ingest_schema_details_Schema_fkey" FOREIGN KEY (ingest_schema_id)
-        REFERENCES "ingest_schema" (id) MATCH SIMPLE
+    CONSTRAINT ingest_Schema_details_pkey PRIMARY KEY (ingest_schema_id,col_name),
+    CONSTRAINT ingest_schema_details_Schema_fkey FOREIGN KEY (ingest_schema_id)
+        REFERENCES ingest_schema (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -43,7 +43,7 @@ INSERT INTO ingest_schema(tenant_id,id,name,last_update_ts,active)
 	('poc',1,'userschema',now(),true);
 
 
-INSERT INTO ingest_schema_details(ingest_schema_id,col_name, col_type, required, key, last_update_ts,active)
+INSERT INTO ingest_schema_details(ingest_schema_id,col_name, col_type, required, pkey, last_update_ts,active)
 	VALUES 
     	(1,'id','int32',true,true,now(),true),
 	(1,'first_name','string',true,false,now(),true),
