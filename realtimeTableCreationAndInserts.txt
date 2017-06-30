@@ -1,0 +1,58 @@
+CREATE TABLE ingest_schema
+(
+    tenant_id character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    id integer primary key,
+    name character varying(100) COLLATE pg_catalog."default",
+    last_update_ts timestamp with time zone NOT NULL,
+    active boolean NOT NULL,
+    CONSTRAINT "Ingest_Schema_Name_Unique" UNIQUE (tenant_id,name)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE ingest_schema
+    OWNER to postgres;
+
+CREATE TABLE ingest_schema_details
+(  
+    ingest_schema_id integer,
+    col_name character varying(100) COLLATE pg_catalog."default",
+    col_type character varying(100) COLLATE pg_catalog."default",
+    required boolean NOT NULL,
+    key boolean NOT NULL,
+    last_update_ts timestamp with time zone NOT NULL,
+    active boolean NOT NULL,
+    CONSTRAINT "ingest_Schema_details_pkey" PRIMARY KEY (ingest_schema_id,col_name),
+    CONSTRAINT "ingest_schema_details_Schema_fkey" FOREIGN KEY (ingest_schema_id)
+        REFERENCES "ingest_schema" (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE Ingest_Schema_Details
+    OWNER to postgres;
+
+INSERT INTO ingest_schema(tenant_id,id,name,last_update_ts,active)
+	VALUES
+	('poc',1,'userschema',now(),true);
+
+
+INSERT INTO ingest_schema_details(ingest_schema_id,col_name, col_type, required, key, last_update_ts,active)
+	VALUES 
+    	(1,'id','int32',true,true,now(),true),
+	(1,'first_name','string',true,false,now(),true),
+	(1,'last_name','string',true,false,now(),true),
+	(1,'email','string',true,false,now(),true),
+	(1,'src_cd_gender','string',true,false,now(),true),
+	(1,'ip_address','string',true,false,now(),true),
+	(1,'last_login','timestamp',false,false,now(),true),
+	(1,'account_balance','decimal(10,2)',false,false,now(),true),
+	(1,'country','string',true,false,now(),true),
+	(1,'favorite_color','string',false,false,now(),true);
+
