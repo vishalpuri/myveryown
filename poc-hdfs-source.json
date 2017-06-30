@@ -1,0 +1,13 @@
+{
+	"name": "hdfs-sink-source",
+        "config" : {
+		"connector.class": "io.confluent.connect.hdfs.HdfsSinkConnector",
+		"tasks.max": 1,
+		"topics": "withSchemaSource",
+		"hdfs.url": "hdfs://namenode:8020",
+		"flush.size": 3,
+		"hive.integration": true,
+		"hive.metastore.uris": "thrift://hive-metastore:9083",
+		"schema.compatibility": "BACKWARD"
+	}
+}
