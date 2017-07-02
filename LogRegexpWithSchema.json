@@ -1,0 +1,24 @@
+{
+	"name": "LogRegexpSpoolDir",
+	"config": {
+		"tasks.max" : 1,
+               "connector.class" : "io.confluent.kafka.connect.source.SpoolDirectoryConnector",
+		"record.processor.class" : "io.confluent.kafka.connect.source.io.processing.log.LogRegexpRecordProcessor",
+		"input.file.pattern" : "^.*\\.jrn$",
+		"finished.path" : "/Users/vishalpuri/Desktop/IBM/Solutions/DAAS/confluent-3.2.2/file/finished",
+		"error.path" : "/Users/vishalpuri/Desktop/IBM/Solutions/DAAS/confluent-3.2.2/file/error",
+		"input.path" : "/Users/vishalpuri/Desktop/IBM/Solutions/DAAS/confluent-3.2.2/file/input",
+		"halt.on.error" : false,
+		"topic" : "atmparsedlogs",
+		"batch.size" : 1000,
+		"csv.first.row.as.header" : true,
+    "csv.schema.from.db" : true,
+    "csv.schema.tenant.id" : "poc",
+    "csv.schema.name" : "atmlogschema",
+		"csv.parser.timestamp.timezone" : "SGT",
+		"csv.parser.timestamp.date.formats" : "MM/dd/yyyy HH:mm:ss",
+		"include.file.metadata" : true,
+		"logregexp.regexp.string" : "(\\d{8}) (\\d{4}) (\\d{2}/\\d{2}/\\d{4} \\d{2}:\\d{2}:\\d{2}) (.*)",
+		"logregexp.header" : "log_id log_message_type log_datetime log_message"
+  }
+}

@@ -1,0 +1,11 @@
+INSERT INTO ingest_schema(tenant_id,id,name,last_update_ts,active)
+	VALUES
+	('poc',2,'atmlogschema',now(),true);
+
+
+INSERT INTO ingest_schema_details(ingest_schema_id,col_name, col_type, required, pkey, last_update_ts,active)
+	VALUES 
+    	(2,'log_id','string',true,false,now(),true),
+	(2,'log_message_type','string',true,false,now(),true),
+	(2,'log_datetime','timestamp',true,false,now(),true),
+	(2,'log_message','string',false,false,now(),true);
